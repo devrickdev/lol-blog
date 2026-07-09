@@ -42,16 +42,6 @@
     "kills": 32,
     "deaths": 38,
     "assists": 40
-  },
-  {
-    "name": "Graves",
-    "championId": "Graves",
-    "role": "Jungle",
-    "games": 5,
-    "wins": 4,
-    "losses": 1,
-    "kills": 45,
-    "deaths": 20,
-    "assists": 30
   }
+  
 ]
