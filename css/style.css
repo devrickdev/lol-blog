@@ -1,0 +1,326 @@
+/* ============================================================
+   TOKENS — "Summoner's Ledger"
+   A coach's clipboard meets a rank-climb logbook.
+   ============================================================ */
+:root {
+  --bg: #0E1B21;
+  --bg-panel: #142529;
+  --bg-panel-raised: #182b30;
+  --ink: #E7E2D3;
+  --ink-dim: #9FB0AC;
+  --ink-faint: #647572;
+  --gold: #D4A24C;
+  --gold-dim: #8a6a35;
+  --win: #4FA891;
+  --loss: #C1554D;
+  --rule: #263B3E;
+  --rule-strong: #33494c;
+
+  --display: "Oswald", "Arial Narrow", sans-serif;
+  --body: "Spectral", Georgia, serif;
+  --mono: "IBM Plex Mono", "Courier New", monospace;
+
+  --radius: 3px;
+  --maxw: 920px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(212,162,76,0.03), transparent 240px),
+    var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0 0 0.5em;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  padding: 0.2em 0.75em;
+  margin-bottom: 0.9em;
+}
+
+/* ---------- layout shell ---------- */
+.shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+@media (max-width: 780px) {
+  .shell { grid-template-columns: 1fr; }
+}
+
+/* ---------- sidebar ---------- */
+.sidebar {
+  background: var(--bg-panel);
+  border-right: 1px solid var(--rule);
+  padding: 28px 22px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+@media (max-width: 780px) {
+  .sidebar {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+  }
+}
+
+.summoner-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rank-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #f4d999, var(--gold) 45%, var(--gold-dim) 100%);
+  box-shadow: 0 0 0 2px var(--bg-panel), 0 0 0 3px var(--gold-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #16262d;
+  flex: none;
+}
+
+.summoner-name {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+}
+.summoner-rank {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+}
+
+nav.mainnav { display: flex; flex-direction: column; gap: 2px; }
+nav.mainnav a {
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+nav.mainnav a::before { content: "▸ "; color: var(--gold-dim); }
+nav.mainnav a:hover, nav.mainnav a.active {
+  background: var(--bg-panel-raised);
+  color: var(--gold);
+}
+nav.mainnav a.active::before { color: var(--gold); }
+
+.sidebar-footer {
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  line-height: 1.5;
+}
+
+/* ---------- main content ---------- */
+main {
+  padding: 48px 32px 80px;
+}
+.content-wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+}
+
+.page-title { font-size: 2.1rem; margin-bottom: 0.25em; }
+.page-sub { color: var(--ink-dim); font-family: var(--body); font-style: italic; margin-bottom: 2em; }
+
+/* ---------- ledger panel (card) ---------- */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.panel + .panel { margin-top: 20px; }
+
+/* ---------- stat readout row ---------- */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.stat-cell {
+  background: var(--bg-panel);
+  padding: 18px 16px;
+}
+.stat-cell .label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 6px;
+}
+.stat-cell .value {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  color: var(--gold);
+}
+.stat-cell .value.win { color: var(--win); }
+.stat-cell .value.loss { color: var(--loss); }
+
+/* ---------- post list ---------- */
+.post-entry {
+  border-bottom: 1px solid var(--rule);
+  padding: 22px 0;
+}
+.post-entry:first-child { padding-top: 0; }
+.post-entry .meta {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  display: flex;
+  gap: 14px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.post-entry .meta .result { font-weight: 600; }
+.post-entry .meta .result.win { color: var(--win); }
+.post-entry .meta .result.loss { color: var(--loss); }
+.post-entry h3 { font-size: 1.25rem; margin-bottom: 0.35em; }
+.post-entry h3 a { color: var(--ink); }
+.post-entry h3 a:hover { color: var(--gold); }
+.post-entry p.summary { color: var(--ink-dim); margin: 0; }
+
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--ink-dim);
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  padding: 0.1em 0.65em;
+  margin-right: 4px;
+}
+
+/* ---------- single post ---------- */
+.post-body p { margin: 0 0 1.1em; }
+.post-body { font-size: 1.05rem; }
+.back-link { font-family: var(--mono); font-size: 0.85rem; display: inline-block; margin-bottom: 24px; }
+
+/* ---------- champions table ---------- */
+table.champs {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+table.champs th, table.champs td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+table.champs th {
+  color: var(--ink-faint);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.7rem;
+  cursor: pointer;
+  user-select: none;
+}
+table.champs th:hover { color: var(--gold); }
+table.champs tbody tr:hover { background: var(--bg-panel-raised); }
+.champ-name-cell { display: flex; align-items: center; gap: 10px; font-family: var(--body); font-size: 0.95rem; }
+.champ-icon {
+  width: 30px; height: 30px; border-radius: 6px;
+  border: 1px solid var(--rule-strong);
+  object-fit: cover;
+  background: var(--bg-panel-raised);
+  flex: none;
+}
+.champ-icon-fallback {
+  width: 30px; height: 30px; border-radius: 6px;
+  border: 1px solid var(--rule-strong);
+  background: var(--bg-panel-raised);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-size: 0.7rem; color: var(--gold);
+  flex: none;
+}
+.wr-bar-track { width: 70px; height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+.wr-bar-fill { height: 100%; background: var(--win); }
+
+/* ---------- the ladder (signature element, stats page) ---------- */
+.ladder-wrap { display: flex; justify-content: center; padding: 10px 0 6px; }
+
+/* ---------- charts ---------- */
+.chart-box { position: relative; height: 280px; margin-top: 10px; }
+
+/* ---------- empty state ---------- */
+.empty {
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+
+/* ---------- footer note ---------- */
+.footnote {
+  margin-top: 48px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--ink-faint);
+  text-align: center;
+}

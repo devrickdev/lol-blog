@@ -1,0 +1,55 @@
+[
+  {
+    "id": "2026-06-19-o2",
+    "date": "2026-06-19",
+    "title": "Fechando Ouro II sem perder o jungle track",
+    "result": "win",
+    "champion": "Lee Sin",
+    "tags": ["jungle", "ranqueada"],
+    "summary": "Consegui priorizar objetivos e converter uma vantagem cedo em vitória de late game.",
+    "content": [
+      "Hoje decidi focar em ler o mapa antes de invadir a jungle inimiga. Nas últimas partidas eu estava invadindo cedo demais e ficando sem recursos para o meu próprio clear.",
+      "Com o Lee Sin, priorizei o primeiro gank na rota que já estava com prioridade (top), e isso abriu espaço para pegar o Arauto no minuto 9. A vantagem de nível compensou o resto da partida.",
+      "Ponto de atenção para a próxima: ainda estou perdendo muito tempo posicionando o Ward Sentinela em locais previsíveis. Vou estudar spots de visão de jungle nesta semana."
+    ]
+  },
+  {
+    "id": "2026-06-12-g2",
+    "date": "2026-06-12",
+    "title": "Voltando a subir depois de três derrotas seguidas",
+    "result": "win",
+    "champion": "Viego",
+    "tags": ["mentalidade", "ranqueada"],
+    "summary": "Depois de uma sequência ruim, resolvi trocar de campeão e isso ajudou a resetar a cabeça.",
+    "content": [
+      "Vinha de três derrotas seguidas jogando Xin Zhao e sentindo que estava forçando jogadas ruins. Troquei para o Viego, que já conheço melhor havia um tempo, e o resultado foi imediato.",
+      "Acho que o principal ganho não foi mecânico, foi mental: jogar algo confortável tirou a pressão de ter que 'carregar' e me deixou tomar decisões mais calmas de rota."
+    ]
+  },
+  {
+    "id": "2026-06-05-o3",
+    "date": "2026-06-05",
+    "title": "Semana difícil: caindo para Ouro III de novo",
+    "result": "loss",
+    "champion": "Xin Zhao",
+    "tags": ["ranqueada", "reflexão"],
+    "summary": "Perdi LP em sequência tentando novos campeões no momento errado.",
+    "content": [
+      "Essa semana testei o Xin Zhao pela primeira vez em ranqueada, o que provavelmente não foi a decisão mais inteligente considerando que eu estava tentando subir de elo.",
+      "Fica o aprendizado: partidas ranqueadas não são o melhor lugar para aprender um campeão novo do zero. Vou levar o Xin Zhao para o normal antes de tentar de novo em ranqueada."
+    ]
+  },
+  {
+    "id": "2026-05-22-o4",
+    "date": "2026-05-22",
+    "title": "Promoção para Ouro!",
+    "result": "win",
+    "champion": "Kindred",
+    "tags": ["promoção", "marco"],
+    "summary": "Depois de semanas em Prata, finalmente bati Ouro IV.",
+    "content": [
+      "Marco importante: saí de Prata I e cheguei em Ouro IV. A consistência com o Kindred no clear e a atenção em não morrer para invasões foram as maiores diferenças em relação ao mês passado.",
+      "Objetivo para o próximo elo: melhorar a leitura de quando fazer o gank em vez de continuar o clear."
+    ]
+  }
+]

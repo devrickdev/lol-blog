@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diário — Summoner's Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="shell">
+  <div id="sidebar-mount"></div>
+  <main>
+    <div class="content-wrap">
+      <span class="eyebrow">Registro completo</span>
+      <h1 class="page-title">Diário</h1>
+      <p class="page-sub">Toda partida marcante, toda decisão de rota e todo tropeço documentado em ordem.</p>
+
+      <div id="filters" style="margin-bottom: 18px; font-family: var(--mono); font-size: 0.8rem;"></div>
+      <div id="post-list"></div>
+    </div>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/nav.js"></script>
+<script>
+let ALL_POSTS = [];
+let ACTIVE_TAG = null;
+
+function render() {
+  const list = ACTIVE_TAG ? ALL_POSTS.filter((p) => p.tags?.includes(ACTIVE_TAG)) : ALL_POSTS;
+  const container = document.getElementById("post-list");
+  if (list.length === 0) {
+    container.innerHTML = `<div class="empty">Nenhuma entrada encontrada para esse filtro.</div>`;
+    return;
+  }
+  container.innerHTML = list
+    .map(
+      (p) => `
+    <article class="post-entry">
+      <div class="meta">
+        <span>${formatDate(p.date)}</span>
+        <span class="result ${p.result}">${p.result === "win" ? "Vitória" : "Derrota"}</span>
+        <span>${p.champion}</span>
+      </div>
+      <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${p.title}</a></h3>
+      <p class="summary">${p.summary}</p>
+      <div style="margin-top:8px;">${(p.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+    </article>`
+    )
+    .join("");
+}
+
+async function init() {
+  renderSidebar("posts.html");
+  ALL_POSTS = (await loadPosts()).sort((a, b) => b.date.localeCompare(a.date));
+
+  const tags = [...new Set(ALL_POSTS.flatMap((p) => p.tags || []))];
+  const filterBar = document.getElementById("filters");
+  filterBar.innerHTML =
+    `<a href="#" data-tag="" style="margin-right:10px; color: var(--ink-dim);">todas</a>` +
+    tags.map((t) => `<a href="#" data-tag="${t}" style="margin-right:10px; color: var(--ink-dim);">#${t}</a>`).join("");
+  filterBar.addEventListener("click", (e) => {
+    if (e.target.tagName !== "A") return;
+    e.preventDefault();
+    ACTIVE_TAG = e.target.dataset.tag || null;
+    render();
+  });
+
+  render();
+}
+init();
+</script>
+</body>
+</html>

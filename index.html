@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summoner's Ledger — Diário de Progresso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="shell">
+  <div id="sidebar-mount"></div>
+  <main>
+    <div class="content-wrap">
+      <span class="eyebrow">Diário de invocador</span>
+      <h1 class="page-title">Summoner's Ledger</h1>
+      <p class="page-sub">Um registro pessoal da subida no ranqueado — partidas, decisões e o que aprendi no processo.</p>
+
+      <div id="snapshot" class="stat-row"></div>
+
+      <h2 style="font-size:1.1rem; margin-bottom: 14px;">Últimas entradas</h2>
+      <div id="latest-posts"></div>
+      <p style="margin-top:18px;"><a href="posts.html" class="back-link">Ver todo o diário →</a></p>
+
+      <div class="footnote">Editado à mão em <code>/data</code>. Sem backend, sem banco de dados — só arquivos.</div>
+    </div>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/nav.js"></script>
+<script>
+async function init() {
+  renderSidebar("index.html");
+
+  const [posts, stats] = await Promise.all([loadPosts(), loadStats()]);
+  const agg = computeAggregate(stats);
+  const latestRank = stats[stats.length - 1];
+
+  document.getElementById("snapshot").innerHTML = `
+    <div class="stat-cell">
+      <div class="label">Elo atual</div>
+      <div class="value">${rankLabel(latestRank)}</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Vitórias registradas</div>
+      <div class="value win">${agg.wins}</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Derrotas registradas</div>
+      <div class="value loss">${agg.losses}</div>
+    </div>
+    <div class="stat-cell">
+      <div class="label">Winrate</div>
+      <div class="value">${agg.winrate}%</div>
+    </div>
+  `;
+
+  const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
+  const container = document.getElementById("latest-posts");
+  if (sorted.length === 0) {
+    container.innerHTML = `<div class="empty">Nenhuma entrada ainda. Adicione uma em data/posts.json.</div>`;
+    return;
+  }
+  container.innerHTML = sorted
+    .map(
+      (p) => `
+    <article class="post-entry">
+      <div class="meta">
+        <span>${formatDate(p.date)}</span>
+        <span class="result ${p.result}">${p.result === "win" ? "Vitória" : "Derrota"}</span>
+        <span>${p.champion}</span>
+      </div>
+      <h3><a href="post.html?id=${encodeURIComponent(p.id)}">${p.title}</a></h3>
+      <p class="summary">${p.summary}</p>
+    </article>`
+    )
+    .join("");
+}
+init();
+</script>
+</body>
+</html>

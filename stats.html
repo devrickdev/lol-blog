@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evolução — Summoner's Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="shell">
+  <div id="sidebar-mount"></div>
+  <main>
+    <div class="content-wrap">
+      <span class="eyebrow">Linha do tempo</span>
+      <h1 class="page-title">Evolução</h1>
+      <p class="page-sub">A escada de elo, o vaivém de LP e o KDA médio por leva de partidas registradas.</p>
+
+      <div id="snapshot" class="stat-row"></div>
+
+      <div class="panel">
+        <h2 style="font-size: 1rem;">A escada</h2>
+        <div class="ladder-wrap"><div id="ladder"></div></div>
+      </div>
+
+      <div class="panel">
+        <h2 style="font-size: 1rem;">Progresso de elo ao longo do tempo</h2>
+        <div class="chart-box"><canvas id="eloChart"></canvas></div>
+      </div>
+
+      <div class="panel">
+        <h2 style="font-size: 1rem;">KDA médio por leva</h2>
+        <div class="chart-box"><canvas id="kdaChart"></canvas></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/stats.js"></script>
+<script>
+async function init() {
+  renderSidebar("stats.html");
+  const stats = await loadStats();
+
+  if (!stats.length) {
+    document.querySelector(".content-wrap").insertAdjacentHTML(
+      "beforeend",
+      `<div class="empty">Nenhum dado de elo ainda. Adicione entradas em data/stats.json.</div>`
+    );
+    return;
+  }
+
+  const agg = computeAggregate(stats);
+  const latest = stats[stats.length - 1];
+  const totalKills = stats.reduce((s, e) => s + (e.kills || 0), 0);
+  const totalDeaths = stats.reduce((s, e) => s + (e.deaths || 0), 0);
+  const totalAssists = stats.reduce((s, e) => s + (e.assists || 0), 0);
+  const avgKda = totalDeaths > 0 ? ((totalKills + totalAssists) / totalDeaths).toFixed(2) : (totalKills + totalAssists);
+
+  document.getElementById("snapshot").innerHTML = `
+    <div class="stat-cell"><div class="label">Elo atual</div><div class="value">${rankLabel(latest)}</div></div>
+    <div class="stat-cell"><div class="label">Winrate geral</div><div class="value">${agg.winrate}%</div></div>
+    <div class="stat-cell"><div class="label">KDA médio</div><div class="value">${avgKda}</div></div>
+    <div class="stat-cell"><div class="label">Registros</div><div class="value">${stats.length}</div></div>
+  `;
+
+  document.getElementById("ladder").innerHTML = buildLadderSVG(stats);
+
+  renderEloChart(document.getElementById("eloChart"), stats);
+  renderKdaChart(document.getElementById("kdaChart"), stats);
+}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Lee Sin",
+    "championId": "LeeSin",
+    "role": "Jungle",
+    "games": 14,
+    "wins": 9,
+    "losses": 5,
+    "kills": 98,
+    "deaths": 70,
+    "assists": 112
+  },
+  {
+    "name": "Viego",
+    "championId": "Viego",
+    "role": "Jungle",
+    "games": 11,
+    "wins": 6,
+    "losses": 5,
+    "kills": 80,
+    "deaths": 55,
+    "assists": 66
+  },
+  {
+    "name": "Kindred",
+    "championId": "Kindred",
+    "role": "Jungle",
+    "games": 8,
+    "wins": 5,
+    "losses": 3,
+    "kills": 61,
+    "deaths": 34,
+    "assists": 70
+  },
+  {
+    "name": "Xin Zhao",
+    "championId": "XinZhao",
+    "role": "Jungle",
+    "games": 6,
+    "wins": 2,
+    "losses": 4,
+    "kills": 32,
+    "deaths": 38,
+    "assists": 40
+  },
+  {
+    "name": "Graves",
+    "championId": "Graves",
+    "role": "Jungle",
+    "games": 5,
+    "wins": 4,
+    "losses": 1,
+    "kills": 45,
+    "deaths": 20,
+    "assists": 30
+  }
+]

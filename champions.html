@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campeões — Summoner's Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="shell">
+  <div id="sidebar-mount"></div>
+  <main>
+    <div class="content-wrap">
+      <span class="eyebrow">Pool de campeões</span>
+      <h1 class="page-title">Campeões</h1>
+      <p class="page-sub">Quem entrou em campo, quantas vezes, e o que essas partidas renderam. Clique nos cabeçalhos para ordenar.</p>
+
+      <div class="panel">
+        <table class="champs">
+          <thead>
+            <tr>
+              <th data-sort="name">Campeão</th>
+              <th data-sort="role">Rota</th>
+              <th data-sort="games">Jogos</th>
+              <th data-sort="wins">V-D</th>
+              <th data-sort="winrate">Winrate</th>
+              <th data-sort="kda">KDA</th>
+            </tr>
+          </thead>
+          <tbody id="champ-tbody"></tbody>
+        </table>
+        <div id="empty-state"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/champions.js"></script>
+<script>
+async function init() {
+  renderSidebar("champions.html");
+  CHAMPS = await loadChampions();
+  if (!CHAMPS.length) {
+    document.getElementById("empty-state").innerHTML = `<div class="empty">Nenhum campeão registrado ainda. Adicione em data/champions.json.</div>`;
+    return;
+  }
+  initSorting();
+  sortAndRender();
+}
+init();
+</script>
+</body>
+</html>

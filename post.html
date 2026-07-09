@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrada — Summoner's Ledger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="shell">
+  <div id="sidebar-mount"></div>
+  <main>
+    <div class="content-wrap" id="post-container">
+      <a href="posts.html" class="back-link">← Voltar ao diário</a>
+      <div class="empty">Carregando...</div>
+    </div>
+  </main>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/nav.js"></script>
+<script>
+async function init() {
+  renderSidebar("posts.html");
+
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+  const posts = await loadPosts();
+  const post = posts.find((p) => p.id === id);
+  const container = document.getElementById("post-container");
+
+  if (!post) {
+    container.innerHTML = `
+      <a href="posts.html" class="back-link">← Voltar ao diário</a>
+      <div class="empty">Essa entrada não foi encontrada. Confira o link ou volte ao diário.</div>
+    `;
+    return;
+  }
+
+  document.title = `${post.title} — Summoner's Ledger`;
+
+  container.innerHTML = `
+    <a href="posts.html" class="back-link">← Voltar ao diário</a>
+    <div class="meta" style="margin-bottom: 10px;">
+      <span>${formatDate(post.date)}</span>
+      <span class="result ${post.result}">${post.result === "win" ? "Vitória" : "Derrota"}</span>
+      <span>${post.champion}</span>
+    </div>
+    <h1 class="page-title" style="font-size: 1.8rem;">${post.title}</h1>
+    <div style="margin-bottom: 24px;">${(post.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+    <div class="post-body">
+      ${post.content.map((para) => `<p>${para}</p>`).join("")}
+    </div>
+  `;
+}
+init();
+</script>
+</body>
+</html>

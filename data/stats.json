@@ -1,0 +1,10 @@
+[
+  { "date": "2026-05-01", "tier": "Prata", "division": "IV", "lp": 12, "wins": 1, "losses": 2, "kills": 18, "deaths": 24, "assists": 20 },
+  { "date": "2026-05-08", "tier": "Prata", "division": "II", "lp": 40, "wins": 3, "losses": 1, "kills": 30, "deaths": 15, "assists": 34 },
+  { "date": "2026-05-15", "tier": "Prata", "division": "I", "lp": 65, "wins": 2, "losses": 2, "kills": 22, "deaths": 20, "assists": 28 },
+  { "date": "2026-05-22", "tier": "Ouro", "division": "IV", "lp": 10, "wins": 4, "losses": 1, "kills": 40, "deaths": 18, "assists": 35 },
+  { "date": "2026-05-29", "tier": "Ouro", "division": "III", "lp": 55, "wins": 3, "losses": 3, "kills": 33, "deaths": 27, "assists": 30 },
+  { "date": "2026-06-05", "tier": "Ouro", "division": "III", "lp": 20, "wins": 1, "losses": 3, "kills": 15, "deaths": 22, "assists": 18 },
+  { "date": "2026-06-12", "tier": "Ouro", "division": "II", "lp": 8, "wins": 3, "losses": 1, "kills": 28, "deaths": 14, "assists": 25 },
+  { "date": "2026-06-19", "tier": "Ouro", "division": "II", "lp": 46, "wins": 2, "losses": 1, "kills": 20, "deaths": 12, "assists": 19 }
+]
